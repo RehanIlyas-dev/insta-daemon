@@ -1,0 +1,52 @@
+name: insta-daemon
+
+on:
+  schedule:
+    - cron: "0 0,6,12,18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: insta-daemon
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decrypt session/state
+        env:
+          IG_PASS: ${{ secrets.IG_PASS }}
+        run: |
+          openssl enc -aes-256-cbc -pbkdf2 -d -pass pass:"$IG_PASS" -in session.json.gpg -out session.json
+          openssl enc -aes-256-cbc -pbkdf2 -d -pass pass:"$IG_PASS" -in state.json.gpg -out state.json
+
+      - name: Install deps
+        run: |
+          python3 -m venv venv
+          venv/bin/pip install --quiet -r requirements.txt
+
+      - name: Run daemon (continuous loop, ~5h57m)
+        env:
+          ONE_SHOT: "0"
+          POLL_INTERVAL: "30"
+        run: timeout 21450 venv/bin/python3 insta_daemon.py || true
+
+      - name: Re-encrypt and push state
+        if: always()
+        env:
+          IG_PASS: ${{ secrets.IG_PASS }}
+        run: |
+          openssl enc -aes-256-cbc -pbkdf2 -pass pass:"$IG_PASS" -in session.json -out session.json.gpg
+          openssl enc -aes-256-cbc -pbkdf2 -pass pass:"$IG_PASS" -in state.json -out state.json.gpg
+          git config user.name "insta-daemon[bot]"
+          git config user.email "actions@github.com"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git add -A
+          git diff --cached --quiet || git commit -m "sync session/state $(date -u +%FT%TZ)"
+          git push
