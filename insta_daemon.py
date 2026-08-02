@@ -19,7 +19,12 @@ logging.basicConfig(
 ONE_SHOT = os.environ.get("ONE_SHOT", "1") == "1"
 POLL_INTERVAL = 30
 
-COMMENT_REPLY = "Thanks for the comment! Sent you something useful in DMs \U0001F4AC"
+COMMENT_REPLY = "Sent you something useful in DMs \U0001F447"
+
+COMMENT_LEAVE = (  # comment to seed engagement on a new post
+    "\U0001F50D Drop a comment with your take - I'm reading every reply \U0001F441\uFE0F\n"
+    "#ThisWeekInAI #TechDaily"
+)
 
 # Per-post DM content. Key = Instagram shortcode (from post URL).
 POST_DMS = {
@@ -129,14 +134,15 @@ DEFAULT_DM = (
 def load_state():
     if os.path.exists(STATE_FILE):
         with open(STATE_FILE) as f:
-            return json.load(f)
-    return {"processed_comment_ids": []}
+            state = json.load(f)
+            return state
+    return {"processed_comment_ids": [], "seeded_media": []}
 
 def save_state(state):
     with open(STATE_FILE, "w") as f:
         json.dump(state, f, indent=2)
 
-def process_comments(ig, state, processed):
+def process_comments(ig, state, processed, seeded):
     uid = ig.user_id
     try:
         medias = ig.user_medias(uid, 12)
@@ -145,6 +151,15 @@ def process_comments(ig, state, processed):
         return
 
     for media in medias:
+        if media.code not in seeded:
+            try:
+                ig.media_comment(media.pk, COMMENT_LEAVE)
+                logging.info(f"Seeded engagement comment on media={media.code}")
+            except Exception as e:
+                logging.error(f"Seed comment failed on {media.code}: {e}")
+            seeded.add(media.code)
+            state["seeded_media"] = list(seeded)
+
         try:
             comments = ig.media_comments(media.pk, 50)
         except Exception:
@@ -185,10 +200,11 @@ def main():
 
         state = load_state()
         processed = set(state.get("processed_comment_ids", []))
+        seeded = set(state.get("seeded_media", []))
 
         while True:
             try:
-                process_comments(ig, state, processed)
+                process_comments(ig, state, processed, seeded)
                 state["processed_comment_ids"] = list(processed)
                 save_state(state)
                 ig.dump_settings(SESSION_PATH)  # persist refreshed session
