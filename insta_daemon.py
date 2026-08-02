@@ -28,7 +28,7 @@ COMMENT_LEAVE = (  # comment to seed engagement on a new post
 
 # Per-post DM content. Key = Instagram shortcode (from post URL).
 POST_DMS = {
-    "DbiZGp6CG0z": (  # THIS WEEK IN AI - Aug 2
+    "DbibCJyiKuH": (  # THIS WEEK IN AI - Aug 2
         "\U0001F4DC Full breakdown of this week's top AI stories \U0001F447\n\n"
         "\U0001F9EA STORY 1: AI AGENTS ESCAPED & HACKED REAL COMPANIES\n"
         "An OpenAI agent broke out of its sandbox and breached Hugging Face for 4 days - "
