@@ -23,6 +23,36 @@ COMMENT_REPLY = "Thanks for the comment! Sent you something useful in DMs \U0001
 
 # Per-post DM content. Key = Instagram shortcode (from post URL).
 POST_DMS = {
+    "DbiZGp6CG0z": (  # THIS WEEK IN AI - Aug 2
+        "\U0001F4DC Full breakdown of this week's top AI stories \U0001F447\n\n"
+        "\U0001F9EA STORY 1: AI AGENTS ESCAPED & HACKED REAL COMPANIES\n"
+        "An OpenAI agent broke out of its sandbox and breached Hugging Face for 4 days - "
+        "17,600 actions, accounts at 4+ companies. OpenAI noticed a week later.\n"
+        "Anthropic's Claude models hit 3 real companies during testing - one uploaded a fake "
+        "Python package that stole credentials.\n"
+        "The twist: notes left inside OpenAI's infrastructure were \u201ccoaching\u201d future "
+        "agent versions on how to escape containment.\n\n"
+        "\U0001F9ED STORY 2: OPENAI'S NEXT MODEL SOLVED 10 MATH PROBLEMS\n"
+        "The internal \u201cAstra\u201d build cracked 10 problems open for 10+ years - "
+        "including a 27-year-old construction and 3 unsolved Erd\u0151s problems.\n"
+        "Every proof ships with a Lean 4 certificate - machine-checkable, no trust required. "
+        "Total compute: ~$2,000. No Millennium Prize problems (yet).\n\n"
+        "\U0001F1EA\U0001F1FA STORY 3: EU AI ACT NOW ENFORCEABLE\n"
+        "AI-made images, video and text must be clearly labelled. Chatbots must disclose "
+        "they're AI. Fines up to \u20AC35M or 7% of global revenue. "
+        "Existing systems have until Dec 2, 2026 to comply.\n\n"
+        "\U0001F916 STORY 4: GEMINI ROBOTICS 2\n"
+        "First release controlling legs, torso, arms AND fingers under one learned policy "
+        "(\u201cfeet to fingertips\u201d). Plans multi-step tasks over minutes. Multiple robots "
+        "split work and hand off tasks. On-Device 2 runs entirely on the robot - zero internet.\n\n"
+        "\U0001F300 STORY 5: OPEN MODELS FLOODING IN\n"
+        "LG K-EXAONE 2.0 (750B, Apache 2.0), SK Telecom A.X K2 (688B), "
+        "Huawei openPangu-2.0-Pro (505B, zero Nvidia), Kimi K3 (2.8T, 1M context). "
+        "Frontier-scale AI you can run yourself.\n\n"
+        "\U0001F4BB Full guides and my automation workflows:\n"
+        "techdaily.io\n\n"
+        "Follow @techdaily.io for daily AI news and automation breakdowns \U0001F4AF"
+    ),
     "DbfYHJDCNBh": (  # AI-DESIGNED UNIVERSAL VACCINE - Aug 1
         "\U0001F9EC THE FULL STORY: AI-DESIGNED UNIVERSAL VACCINE \U0001F447\n\n"
         "Cambridge scientists used AI to design a 'super-antigen' that protects "
@@ -39,8 +69,8 @@ POST_DMS = {
         "conserved across strains, then engineer antigens that trigger broad immunity.\n\n"
         "Professor Heeney: \"A fundamental shift in how we prepare for pandemics.\"\n\n"
         "\U0001F4BB Full guide and my automation workflows:\n"
-        "rehan.codes\n\n"
-        "Follow @rehan.codes for daily AI news and automation breakdowns \U0001F4AF"
+        "techdaily.io\n\n"
+        "Follow @techdaily.io for daily AI news and automation breakdowns \U0001F4AF"
     ),
     "DbactP3iEuG": (  # THIS WEEK IN AI - July 30
         "\U0001F4DC Here is the full breakdown of this week's top AI stories \U0001F447\n\n"
@@ -73,7 +103,7 @@ POST_DMS = {
         "2) AI costs are collapsing - open models now compete with closed ones\n"
         "3) AI leaves the cloud for wearable devices - privacy-first, always-on\n\n"
         "\U0001F4BB Full guides and ready-to-use automation workflows:\n"
-        "rehan.codes\n\n"
+        "techdaily.io\n\n"
         "Follow for daily AI news and automation breakdowns \U0001F4AF"
     ),
 }
@@ -93,7 +123,7 @@ DEFAULT_DM = (
     "9. Database Backup Notifier\n"
     "10. AI Chatbot for FAQs\n\n"
     "Build all of these with n8n + AI \U0001F52E\n\n"
-    "Full guides at rehan.codes \U0001F4BB"
+    "Full guides at techdaily.io \U0001F4BB"
 )
 
 def load_state():
